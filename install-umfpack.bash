@@ -2,16 +2,26 @@
 
 set -e
 
+# first argument
+BLAS_LIB=${1:-"mkl"}
+
+# options
+PREFIX="/usr/local"
+INCDIR=$PREFIX/include/umfpack
+LIBDIR=$PREFIX/lib/umfpack
+
 # fake sudo function to be used by docker build
 sudo () {
   [[ $EUID = 0 ]] || set -- command sudo "$@"
   "$@"
 }
 
-# options
-PREFIX="/usr/local"
-INCDIR=$PREFIX/include/umfpack
-LIBDIR=$PREFIX/lib/umfpack
+# BLAS lib
+CMAKE_OPTIONS="-DBLA_VENDOR=OpenBLAS -DBLA_SIZEOF_INTEGER=4"
+if [ "${BLAS_LIB}" = "mkl" ]; then
+    CMAKE_OPTIONS="-DBLA_VENDOR=Intel10_64lp -DBLA_SIZEOF_INTEGER=4"
+    . /opt/intel/oneapi/mkl/latest/env/vars.sh
+fi
 
 # download the source code
 cd /tmp
@@ -24,8 +34,9 @@ cd SuiteSparse
 action () {
     local dir=$1
     cd $dir
-    make local
-    make install
+    make clean
+    CMAKE_OPTIONS=${CMAKE_OPTIONS} make local
+    CMAKE_OPTIONS=${CMAKE_OPTIONS} make install
     cd ..
 }
 
