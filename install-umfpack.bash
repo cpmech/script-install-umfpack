@@ -17,10 +17,10 @@ sudo () {
 }
 
 # BLAS lib
-CMAKE_OPTIONS="-DBLA_VENDOR=OpenBLAS -DBLA_SIZEOF_INTEGER=4"
+CMAKE_OPTIONS="-DBLA_VENDOR=OpenBLAS -DBLA_SIZEOF_INTEGER=4 -DNFORTRAN=ON"
 if [ "${BLAS_LIB}" = "mkl" ]; then
-    CMAKE_OPTIONS="-DBLA_VENDOR=Intel10_64lp -DBLA_SIZEOF_INTEGER=4"
-    source /opt/intel/oneapi/mkl/latest/env/vars.sh
+    CMAKE_OPTIONS="-DBLA_VENDOR=Intel10_64lp -DBLA_SIZEOF_INTEGER=4 -DNFORTRAN=ON"
+    source /opt/intel/oneapi/setvars.sh
     export | grep -i MKLROOT
 fi
 
