@@ -4,9 +4,23 @@ This script fetches the `dev` branch of [SuiteSparse](https://github.com/DrTimot
 
 **Note:** The installation directories are `/usr/local/include/umfpack` and `/usr/local/lib/umfpack`.
 
+First, install some dependencies:
+
 ```bash
 bash install-deps.bash
+```
+
+Then, install umfpack with OpenBLAS:
+
+```bash
 bash install-umfpack.bash
+```
+
+Or, to use Intel MKL, run:
+
+```bash
+bash install-intel-mkl-linux.bash
+bash install-umfpack.bash mkl
 ```
 
 ## Installed include files

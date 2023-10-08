@@ -3,7 +3,7 @@
 set -e
 
 # first argument
-BLAS_LIB=${1:-"mkl"}
+BLAS_LIB=${1:-""}
 
 # options
 PREFIX="/usr/local"
@@ -20,7 +20,8 @@ sudo () {
 CMAKE_OPTIONS="-DBLA_VENDOR=OpenBLAS -DBLA_SIZEOF_INTEGER=4"
 if [ "${BLAS_LIB}" = "mkl" ]; then
     CMAKE_OPTIONS="-DBLA_VENDOR=Intel10_64lp -DBLA_SIZEOF_INTEGER=4"
-    . /opt/intel/oneapi/mkl/latest/env/vars.sh
+    source /opt/intel/oneapi/mkl/latest/env/vars.sh
+    export | grep -i MKLROOT
 fi
 
 # download the source code
